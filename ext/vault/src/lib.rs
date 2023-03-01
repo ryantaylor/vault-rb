@@ -1,0 +1,62 @@
+extern crate byteorder;
+extern crate nom;
+extern crate nom_locate;
+extern crate nom_tracable;
+extern crate serde_magnus;
+extern crate serde;
+
+use nom_locate::LocatedSpan;
+use nom_tracable::{cumulative_histogram, histogram, TracableInfo};
+use magnus::{define_module, function, prelude::*, Error, define_class, class, method, Value};
+use serde_magnus::serialize;
+use crate::replay::Replay;
+use crate::span::Span;
+
+pub mod chunks;
+pub mod chunky;
+pub mod header;
+pub mod parser;
+pub mod replay;
+pub mod span;
+pub mod player;
+pub mod item;
+
+fn hello(subject: String) -> String {
+    format!("Hello from Rust, {}!", subject)
+}
+
+fn parse_replay(data: Vec<u8>) -> Result<Value, Error> {
+    let info = TracableInfo::new().parser_width(64).fold("term");
+    let input: Span = LocatedSpan::new_extra(data.as_slice(), info);
+    let (_, replay) = Replay::parse_replay(input).unwrap();
+
+    serialize(&replay)
+}
+
+#[magnus::init]
+fn init() -> Result<(), Error> {
+    let module = define_module("Vault")?;
+    let replay = module.define_class("Replay", class::object())?;
+    replay.define_singleton_method("parse_replay", function!(parse_replay, 1))?;
+    Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use nom_locate::LocatedSpan;
+    use nom_tracable::{cumulative_histogram, histogram, TracableInfo};
+    use crate::span::Span;
+    use super::*;
+
+    #[test]
+    fn it_works() {
+        let info = TracableInfo::new().parser_width(64).fold("term");
+        let data = include_bytes!("/Users/ryantaylor/Downloads/release.rec");
+        let input: Span = LocatedSpan::new_extra(data, info);
+        let (_, replay) = replay::Replay::parse_replay(input).unwrap();
+        println!("{:#?}", replay);
+
+        histogram();
+        cumulative_histogram();
+    }
+}
