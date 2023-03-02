@@ -28,7 +28,10 @@ fn hello(subject: String) -> String {
 fn parse_replay(data: Vec<u8>) -> Result<Value, Error> {
     let info = TracableInfo::new().parser_width(64).fold("term");
     let input: Span = LocatedSpan::new_extra(data.as_slice(), info);
-    let (_, replay) = Replay::parse_replay(input).unwrap();
+    let replay = match Replay::parse_replay(input) {
+        Ok((_, replay)) => replay,
+        Err(_) => return Err(Error::new(magnus::exception::runtime_error(), "Parsing failed!"))
+    };
 
     serialize(&replay)
 }
