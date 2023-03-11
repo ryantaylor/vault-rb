@@ -1,0 +1,207 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+LittleEndian();
+
+struct HEADER {
+    uint16 zero;
+    uint16 version;
+    char name[];
+    wstring timestamp;
+};
+
+HEADER h;
+
+while(ReadUShort() == 0)
+    FSkip(2);
+
+struct CHUNKY {
+    char name[12];
+    uint32 signature;
+    uint32 major_version;
+    uint32 minor_version;
+};
+
+CHUNKY c;
+
+struct CHUNKHEADER {
+    char kind[4];
+    char type[4];
+    uint32 version;
+    uint32 length;
+    uint32 name_length;
+};
+
+struct ITEM {
+    uint32 count;
+    uint32 id_a;
+    if (id_a == 0) {
+        uint32 sublength_maybe;
+        uint32 id_a_actual;
+    }
+    uint16 player_id_a;
+    char zeroes_a[5];
+    uint32 id_b;
+    uint16 player_id_b;
+    char zeroes_b[5];
+    uint16 flag_a;
+    uint32 length;
+    char data[length];
+};
+
+uint32 GetItemCount(char faction[])
+{
+    if (faction == "british_africa")
+        return 21;
+    else if (faction == "americans")
+        return 22;
+    else
+        return 25;
+}
+
+struct PLAYER {
+    byte byte_flag;
+    uint32 name_length;
+    wchar_t name[name_length];
+    uint32 team;
+    uint32 second_flag;
+    byte small_flag;
+    uint32 faction_length;
+    char faction[faction_length];
+    uint32 length_maybe;
+    uint32 another_flag;
+    uint32 ai_length;
+    char ai[ai_length];
+    uint32 max_one;
+    uint32 zero_one;
+    char maxes[20];
+    uint32 zero_two;
+    uint32 one_one;
+    uint32 zero_three;
+    uint32 fourth_flag;
+    uint32 zero_four;
+    byte short_zero;
+    uint32 steam_id_length;
+    wchar_t steam_id[steam_id_length];
+    uint32 zero_five;
+    uint32 flag_a;
+    uint32 flag_b;
+    uint32 flag_c;
+    uint16 flag_d;
+    ITEM items[GetItemCount(faction)] <optimize=false>;
+    uint32 zero_six;
+};
+
+struct DATADATACHUNK {
+    CHUNKHEADER header;
+    local uint32 start = FTell();
+    if(header.version == 1)
+        char data[header.length];
+    else {
+        uint32 opponent_type;
+        char data[6];
+        uint32 num_players;
+        PLAYER players[num_players] <optimize=false>;
+        uint32 length_a;
+        char data_a[length_a];
+        uint32 zero_a;
+        uint32 flag_a;
+        uint32 zero_b;
+        uint32 some_flag_probs_not_length;
+        char data_b[20];
+        uint32 resource_section_length;
+        char resource_section[resource_section_length];
+        uint32 one_a;
+        uint32 option_resources_length;
+        char option_resources[option_resources_length];
+        uint32 zero_c;
+        uint32 section_tickets_length;
+        char section_tickets[section_tickets_length];
+        uint32 one_b;
+        uint32 option_tickets_length;
+        char option_tickets[option_tickets_length];
+        uint32 flag_b;
+        uint32 zero_d;
+        uint32 zero_e;
+        uint32 zero_f;
+        uint32 some_string_length;
+        char some_string[some_string_length];
+        FSeek(start + header.length);
+    }
+        
+};
+
+struct DATAPLASCHUNK {
+    CHUNKHEADER header;
+    char data[header.length];
+};
+
+struct DATAGRIFCHUNK {
+    CHUNKHEADER header;
+    char data[header.length];
+};
+
+struct DATASAVPCHUNK {
+    CHUNKHEADER header;
+    char data[header.length];
+};
+
+struct DATASDSCCHUNK {
+    CHUNKHEADER header;
+    local uint32 start = FTell();
+    char data[121];
+    uint32 map_file_length;
+    char map_file[map_file_length];
+    uint32 map_name_length;
+    wchar_t map_name[map_name_length];
+    uint32 zero_a;
+    uint32 map_description_length;
+    wchar_t map_description[map_description_length];
+    char rest_data[header.length - (FTell() - start)];
+};
+
+struct FOLDPOSTCHUNK {
+    CHUNKHEADER header;
+    DATADATACHUNK data_chunk;
+};
+
+struct FOLDINFOCHUNK {
+    CHUNKHEADER header;
+    DATADATACHUNK data_chunk;
+    DATAPLASCHUNK plas_chunk;
+    DATAGRIFCHUNK grif_chunk;
+    DATASAVPCHUNK savp_chunk;
+    DATASDSCCHUNK sdsc_chunk;
+};
+
+struct TICK {
+    uint32 type;
+    uint32 size;
+    byte some_id;
+    uint32 tick_id;
+    uint32 some_big_num;
+    char data[size - 9];
+};
+
+struct TICKS {
+    while (!FEof()) {
+        TICK tick;
+    }
+};
+
+FOLDPOSTCHUNK f;
+
+CHUNKY c2;
+
+FOLDINFOCHUNK f2;
+
+TICKS ticks;
