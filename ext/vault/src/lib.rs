@@ -20,6 +20,7 @@ pub mod replay;
 pub mod span;
 pub mod player;
 pub mod item;
+pub mod tick;
 
 fn hello(subject: String) -> String {
     format!("Hello from Rust, {}!", subject)
