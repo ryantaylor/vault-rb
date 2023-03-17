@@ -184,17 +184,45 @@ struct FOLDINFOCHUNK {
 };
 
 struct TICK {
-    uint32 type;
-    uint32 size;
+    uint32 tick_type;
+    uint32 tick_size;
     byte some_id;
     uint32 tick_id;
     uint32 some_big_num;
-    char data[size - 9];
+    char data[tick_size - 9];
+};
+
+struct MESSAGE_BODY {
+    uint32 name_length;
+    wchar_t player_name[name_length];
+    uint32 message_length;
+    wchar_t message[message_length];
+};
+
+struct MESSAGE {
+    uint32 tick_type;
+    uint32 tick_size;
+    uint32 num_messages;
+    uint32 message_length;
+    
+    if (num_messages == 0) {
+        char data[message_length];
+    } else {
+        uint32 some_flag;
+        uint32 some_other_flag;
+        uint32 some_third_flag;
+    }
+
+    local int i = 0;
+    for (i = 0; i < num_messages; i++) {
+        MESSAGE_BODY body;
+    }
 };
 
 struct TICKS {
     while (!FEof()) {
-        TICK tick;
+        if (ReadUInt() == 0) TICK tick;
+        else MESSAGE message;
     }
 };
 
