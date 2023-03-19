@@ -11,7 +11,7 @@ use crate::chunks::Chunk;
 
 use crate::header::Header;
 use crate::span::{ParserResult, Span};
-use crate::tick::Tick;
+use crate::ticks::{Tick, Ticks};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[magnus::wrap(class = "Vault::Replay")]
@@ -19,7 +19,7 @@ pub struct Replay {
     pub header: Header,
     pub chunkies: Vec<Chunky>,
     pub chunks: Vec<Chunk>,
-    pub length: usize
+    pub ticks: Ticks
 }
 
 impl Replay {
@@ -33,7 +33,7 @@ impl Replay {
                 Chunky::parse_chunky,
                 Chunk::parse_chunk,
                 Chunk::parse_chunk,
-                many_till(Tick::parse_tick, eof)
+                Ticks::parse_ticks
             )),
             |(
                 header,
@@ -42,13 +42,13 @@ impl Replay {
                 second_chunky,
                 foldinfo_chunk,
                 datasdsc_chunk,
-                (ticks, _)
+                ticks
              )| {
                 Replay {
                     header,
                     chunkies: vec![first_chunky, second_chunky],
                     chunks: vec![foldpost_chunk, foldinfo_chunk, datasdsc_chunk],
-                    length: ticks.len() / 8
+                    ticks
                 }
             }
         )(input)
