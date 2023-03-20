@@ -19,7 +19,8 @@ pub struct Replay {
     pub header: Header,
     pub chunkies: Vec<Chunky>,
     pub chunks: Vec<Chunk>,
-    pub ticks: Ticks
+    pub ticks: Ticks,
+    pub length: usize
 }
 
 impl Replay {
@@ -48,6 +49,7 @@ impl Replay {
                     header,
                     chunkies: vec![first_chunky, second_chunky],
                     chunks: vec![foldpost_chunk, foldinfo_chunk, datasdsc_chunk],
+                    length: ticks.commands().len(),
                     ticks
                 }
             }

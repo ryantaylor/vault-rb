@@ -206,4 +206,8 @@ impl Ticks {
             }
         )(input)
     }
+
+    pub fn commands(&self) -> &Vec<CommandTick> {
+        &self.command_ticks
+    }
 }
