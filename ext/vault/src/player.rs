@@ -17,6 +17,7 @@ pub struct Player {
     pub faction: String,
     pub ai_type: String,
     pub steam_id: String,
+    pub profile_id: u32,
     pub items: Vec<Item>
 }
 
@@ -33,7 +34,9 @@ impl Player {
                         Self::parse_faction,
                         take(8u32),
                         Self::parse_ai,
-                        take(49u32),
+                        take(40u32),
+                        le_u32,
+                        take(5u32),
                         Self::parse_steam_id,
                         take(18u32)
                     )),
@@ -46,6 +49,8 @@ impl Player {
                          _,
                          ai_type,
                          _,
+                         profile_id,
+                         _,
                          steam_id,
                          _
 
@@ -56,6 +61,7 @@ impl Player {
                             faction,
                             ai_type,
                             steam_id,
+                            profile_id,
                             items: vec![]
                         }
                     }

@@ -87,7 +87,7 @@ struct PLAYER {
     uint32 zero_two;
     uint32 one_one;
     uint32 zero_three;
-    uint32 fourth_flag;
+    uint32 profile_id;
     uint32 zero_four;
     byte short_zero;
     uint32 steam_id_length;
