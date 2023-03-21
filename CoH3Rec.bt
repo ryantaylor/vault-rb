@@ -87,8 +87,7 @@ struct PLAYER {
     uint32 zero_two;
     uint32 one_one;
     uint32 zero_three;
-    uint32 profile_id;
-    uint32 zero_four;
+    uint64 profile_id;
     byte short_zero;
     uint32 steam_id_length;
     wchar_t steam_id[steam_id_length];
@@ -114,8 +113,7 @@ struct DATADATACHUNK {
         uint32 length_a;
         char data_a[length_a];
         uint32 zero_a;
-        uint32 flag_a;
-        uint32 zero_b;
+        uint64 matchhistory_id;
         uint32 some_flag_probs_not_length;
         char data_b[20];
         uint32 resource_section_length;

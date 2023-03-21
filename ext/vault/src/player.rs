@@ -3,7 +3,7 @@ use nom::bytes::complete::take;
 use nom::combinator::{cut, map};
 use nom::{IResult, Parser};
 use nom::multi::many_m_n;
-use nom::number::complete::le_u32;
+use nom::number::complete::{le_u32, le_u64};
 use nom::sequence::tuple;
 use crate::item::Item;
 use crate::parser::{parse_utf16_variable, parse_utf8_variable};
@@ -17,7 +17,7 @@ pub struct Player {
     pub faction: String,
     pub ai_type: String,
     pub steam_id: String,
-    pub profile_id: u32,
+    pub profile_id: u64,
     pub items: Vec<Item>
 }
 
@@ -35,8 +35,8 @@ impl Player {
                         take(8u32),
                         Self::parse_ai,
                         take(40u32),
-                        le_u32,
-                        take(5u32),
+                        le_u64,
+                        take(1u32),
                         Self::parse_steam_id,
                         take(18u32)
                     )),

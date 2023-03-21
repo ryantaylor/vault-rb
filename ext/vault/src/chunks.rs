@@ -4,7 +4,7 @@ use nom::bytes::complete::{tag, take};
 use nom::combinator::{cut, eof, flat_map, map, map_parser, peek};
 use nom::IResult;
 use nom::multi::{length_count, many0};
-use nom::number::complete::le_u32;
+use nom::number::complete::{le_u32, le_u64};
 use nom::sequence::{terminated, tuple};
 use nom_tracable::tracable_parser;
 use crate::chunks::Chunk::{DATA, DATADATA, DATASDSC, FOLD};
@@ -186,6 +186,7 @@ pub struct DATADATAChunk {
     pub header: ChunkHeader,
     pub opponent_type: u32,
     pub players: Vec<Player>,
+    pub matchhistory_id: u64,
     pub section_resources: String,
     pub option_resources: String,
     pub section_tickets: String,
@@ -209,7 +210,9 @@ impl DATADATAChunk {
                         take(6u32),
                         Self::parse_players,
                         flat_map(le_u32, take),
-                        take(16u32),
+                        take(4u32),
+                        le_u64,
+                        take(4u32),
                         take(20u32),
                         Self::parse_resource_string,
                         take(4u32),
@@ -227,6 +230,8 @@ impl DATADATAChunk {
                          players,
                          _,
                          _,
+                         matchhistory_id,
+                         _,
                          _,
                          section_resources,
                          _,
@@ -242,6 +247,7 @@ impl DATADATAChunk {
                             header: header.clone(),
                             opponent_type,
                             players,
+                            matchhistory_id,
                             section_resources,
                             option_resources,
                             section_tickets,
