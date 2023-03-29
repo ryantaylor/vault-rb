@@ -7,7 +7,8 @@ use nom::multi::many_till;
 use nom::sequence::tuple;
 use nom_tracable::tracable_parser;
 use crate::chunky::Chunky;
-use crate::chunks::Chunk;
+use crate::chunks::{Chunk, DATADATAChunk, DATASDSCChunk};
+use crate::chunks::Chunk::{DATADATA, DATASDSC};
 
 use crate::header::Header;
 use crate::span::{ParserResult, Span};
@@ -56,15 +57,60 @@ impl Replay {
         )(input)
     }
 
-    pub fn header(&self) -> Header {
-        self.header.clone()
+    pub fn len(&self) -> usize {
+        self.ticks.command_ticks.len()
     }
 
-    pub fn chunkies(&self) -> Vec<Chunky> {
-        self.chunkies.clone()
+    pub fn version(&self) -> u16 {
+        self.header.version
     }
 
-    pub fn chunks(&self) -> Vec<Chunk> {
-        self.chunks.clone()
+    pub fn timestamp(&self) -> &str {
+        &self.header.timestamp
+    }
+
+    fn data_chunks(&self) -> Vec<&Chunk> {
+        self.chunks.iter().flat_map(|chunk| {
+            match chunk {
+                Chunk::FOLD(fold) => fold.chunks.iter().collect(),
+                _ => vec![chunk]
+            }
+        }).collect()
+    }
+
+    fn game_data(&self) -> &DATADATAChunk {
+        let chunks = self.data_chunks();
+
+        let data_chunk = chunks.iter().find(|chunk| {
+            match chunk {
+                DATADATA(_) => true,
+                _ => false
+            }
+        }).unwrap();
+
+        match data_chunk {
+            DATADATA(data) => data,
+            _ => panic!()
+        }
+    }
+
+    fn map_data(&self) -> &DATASDSCChunk {
+        let chunks = self.data_chunks();
+
+        let map_chunk = chunks.iter().find(|chunk| {
+            match chunk {
+                DATASDSC(_) => true,
+                _ => false
+            }
+        }).unwrap();
+
+        match map_chunk {
+            DATASDSC(map) => map,
+            _ => panic!()
+        }
+    }
+
+    pub fn matchhistory_id(&self) -> u64 {
+        self.game_data().matchhistory_id
     }
 }

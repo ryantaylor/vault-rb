@@ -63,4 +63,44 @@ mod tests {
         histogram();
         cumulative_histogram();
     }
+
+    #[test]
+    fn test_len() {
+        let info = TracableInfo::new().parser_width(64).fold("term");
+        let data = include_bytes!("/Users/ryantaylor/Downloads/release.rec");
+        let input: Span = LocatedSpan::new_extra(data, info);
+        let (_, replay) = replay::Replay::parse_replay(input).unwrap();
+
+        assert_eq!(replay.len(), 21001)
+    }
+
+    #[test]
+    fn test_version() {
+        let info = TracableInfo::new().parser_width(64).fold("term");
+        let data = include_bytes!("/Users/ryantaylor/Downloads/release.rec");
+        let input: Span = LocatedSpan::new_extra(data, info);
+        let (_, replay) = replay::Replay::parse_replay(input).unwrap();
+
+        assert_eq!(replay.version(), 8369)
+    }
+
+    #[test]
+    fn test_timestamp() {
+        let info = TracableInfo::new().parser_width(64).fold("term");
+        let data = include_bytes!("/Users/ryantaylor/Downloads/release.rec");
+        let input: Span = LocatedSpan::new_extra(data, info);
+        let (_, replay) = replay::Replay::parse_replay(input).unwrap();
+
+        assert_eq!(replay.timestamp(), "2023-02-23 21:18")
+    }
+
+    #[test]
+    fn test_matchhistory_id() {
+        let info = TracableInfo::new().parser_width(64).fold("term");
+        let data = include_bytes!("/Users/ryantaylor/Downloads/release.rec");
+        let input: Span = LocatedSpan::new_extra(data, info);
+        let (_, replay) = replay::Replay::parse_replay(input).unwrap();
+
+        assert_eq!(replay.matchhistory_id(), 150656)
+    }
 }
