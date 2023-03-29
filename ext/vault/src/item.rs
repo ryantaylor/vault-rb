@@ -42,7 +42,7 @@ impl Item {
         match faction {
             "british_africa" => 21,
             "americans" => 22,
-            _ => 25
+            _ => 28
         }
     }
 
