@@ -12,8 +12,11 @@
 //------------------------------------------------
 LittleEndian();
 
+local uint16 global_version = 0;
+
 struct HEADER {
     uint16 zero;
+    global_version = ReadShort();
     uint16 version;
     char name[];
     wstring timestamp;
@@ -55,17 +58,38 @@ struct ITEM {
     char zeroes_b[5];
     uint16 flag_a;
     uint32 length;
-    char data[length];
+    local uint32 start = FTell();
+    uint64 iteminstance_id;
+    uint64 some_flag;
+    uint64 itemdefinition_id;
+    uint64 profile_id;
+    uint32 durability;
+    uint32 durability_type;
+    byte some_other_flag;
+    uint32 metadata_length;
+    char metadata[metadata_length];
+    uint64 some_crazy_number;
+    uint64 itemlocation_id;
+    char rest_data[length - (FTell() - start)];
 };
 
 uint32 GetItemCount(char faction[])
 {
-    if (faction == "british_africa")
-        return 21;
-    else if (faction == "americans")
-        return 22;
-    else
-        return 25;
+    if (global_version < 10000) {
+        if (faction == "british_africa")
+            return 21;
+        else if (faction == "americans")
+            return 22;
+        else
+            return 25;
+    } else {
+        if (faction == "british_africa")
+            return 21;
+        else if (faction == "americans")
+            return 22;
+        else
+            return 28;
+    }
 }
 
 struct PLAYER {
