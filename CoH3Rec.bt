@@ -87,6 +87,8 @@ uint32 GetItemCount(char faction[])
             return 21;
         else if (faction == "americans")
             return 22;
+        else if (faction == "germans")
+            return 25;
         else
             return 28;
     }
