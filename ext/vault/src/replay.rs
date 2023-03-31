@@ -50,7 +50,7 @@ impl Replay {
                     header,
                     chunkies: vec![first_chunky, second_chunky],
                     chunks: vec![foldpost_chunk, foldinfo_chunk, datasdsc_chunk],
-                    length: ticks.commands().len(),
+                    length: ticks.commands().len() / 8,
                     ticks
                 }
             }
