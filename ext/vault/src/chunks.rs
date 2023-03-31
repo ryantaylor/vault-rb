@@ -22,21 +22,23 @@ pub enum Chunk {
 }
 
 impl Chunk {
-    pub fn parse_chunk(input: Span) -> ParserResult<Chunk> {
-        let (input, header) = ChunkHeader::parse_chunk_header(input)?;
-        // let (input, identifier) = Self::peek_identifier(input)?;
+    pub fn parse_chunk(version: u16) -> impl FnMut(Span) -> ParserResult<Chunk> {
+        move |input: Span| {
+            let (input, header) = ChunkHeader::parse_chunk_header(input)?;
+            // let (input, identifier) = Self::peek_identifier(input)?;
 
-        // println!("parsing {}", identifier);
+            // println!("parsing {}", identifier);
 
-        return match &header.chunk_kind as &str {
-            "DATA" => match &header.chunk_type as &str {
-                "DATA" => DATADATAChunk::parse_chunk(input, header),
-                "SDSC" => DATASDSCChunk::parse_chunk(input, header),
-                _ => TrashDATAChunk::parse_chunk(input, header)
-            },
-            "FOLD" => FOLDChunk::parse_folder_chunk(input, header),
-            _ => panic!()
-        };
+            return match &header.chunk_kind as &str {
+                "DATA" => match &header.chunk_type as &str {
+                    "DATA" => DATADATAChunk::parse_chunk(input, header, version),
+                    "SDSC" => DATASDSCChunk::parse_chunk(input, header),
+                    _ => TrashDATAChunk::parse_chunk(input, header)
+                },
+                "FOLD" => FOLDChunk::parse_folder_chunk(input, header, version),
+                _ => panic!()
+            };
+        }
 
         // let parser = match &header.chunk_kind as &str {
         //     "DATA" => match &header.chunk_type as &str {
@@ -135,7 +137,7 @@ pub struct FOLDChunk {
 }
 
 impl FOLDChunk {
-    pub fn parse_folder_chunk(input: Span, header: ChunkHeader) -> ParserResult<Chunk> {
+    pub fn parse_folder_chunk(input: Span, header: ChunkHeader, version: u16) -> ParserResult<Chunk> {
         cut(
             map_parser(
                 take(header.length),
@@ -143,7 +145,7 @@ impl FOLDChunk {
                     map(
                         map_parser(
                             take(header.length),
-                            many0(Chunk::parse_chunk)
+                            many0(Chunk::parse_chunk(version))
                         ),
                         move |chunks| {
                             FOLD(FOLDChunk {
@@ -196,7 +198,7 @@ pub struct DATADATAChunk {
 
 impl DATADATAChunk {
     #[tracable_parser]
-    pub fn parse_chunk(input: Span, header: ChunkHeader) -> ParserResult<Chunk> {
+    pub fn parse_chunk(input: Span, header: ChunkHeader, version: u16) -> ParserResult<Chunk> {
         if header.version == 1 {
             return TrashDATAChunk::parse_chunk(input, header);
         }
@@ -208,7 +210,7 @@ impl DATADATAChunk {
                     tuple((
                         Self::parse_opponent_type,
                         take(6u32),
-                        Self::parse_players,
+                        Self::parse_players(version),
                         flat_map(le_u32, take),
                         take(4u32),
                         le_u64,
@@ -264,8 +266,10 @@ impl DATADATAChunk {
     fn parse_opponent_type(input: Span) -> ParserResult<u32> { le_u32(input) }
 
     #[tracable_parser]
-    fn parse_players(input: Span) -> ParserResult<Vec<Player>> {
-        length_count(le_u32, Player::parse_player)(input)
+    fn parse_players(version: u16) -> impl FnMut(Span) -> ParserResult<Vec<Player>> {
+        move |input: Span| {
+            length_count(le_u32, Player::parse_player(version))(input)
+        }
     }
 
     fn parse_resource_string(input: Span) -> ParserResult<String> {

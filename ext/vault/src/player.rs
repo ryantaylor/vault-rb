@@ -22,55 +22,57 @@ pub struct Player {
 }
 
 impl Player {
-    pub fn parse_player(input: Span) -> ParserResult<Player> {
-        let (input, player) =
-            cut(
-                map(
-                    tuple((
-                        take(1u32),
-                        Self::parse_name,
-                        Self::parse_team,
-                        take(5u32),
-                        Self::parse_faction,
-                        take(8u32),
-                        Self::parse_ai,
-                        take(40u32),
-                        le_u64,
-                        take(1u32),
-                        Self::parse_steam_id,
-                        take(18u32)
-                    )),
-                    |(
-                         _,
-                         name,
-                         team,
-                         _,
-                         faction,
-                         _,
-                         ai_type,
-                         _,
-                         profile_id,
-                         _,
-                         steam_id,
-                         _
+    pub fn parse_player(version: u16) -> impl FnMut(Span) -> ParserResult<Player> {
+        move |input: Span| {
+            let (input, player) =
+                cut(
+                    map(
+                        tuple((
+                            take(1u32),
+                            Self::parse_name,
+                            Self::parse_team,
+                            take(5u32),
+                            Self::parse_faction,
+                            take(8u32),
+                            Self::parse_ai,
+                            take(40u32),
+                            le_u64,
+                            take(1u32),
+                            Self::parse_steam_id,
+                            take(18u32)
+                        )),
+                        |(
+                             _,
+                             name,
+                             team,
+                             _,
+                             faction,
+                             _,
+                             ai_type,
+                             _,
+                             profile_id,
+                             _,
+                             steam_id,
+                             _
 
-                     )| {
-                        Player {
-                            name,
-                            team,
-                            faction,
-                            ai_type,
-                            steam_id,
-                            profile_id,
-                            items: vec![]
+                         )| {
+                            Player {
+                                name,
+                                team,
+                                faction,
+                                ai_type,
+                                steam_id,
+                                profile_id,
+                                items: vec![]
+                            }
                         }
-                    }
-                )
-            )(input)?;
+                    )
+                )(input)?;
 
-        let (input, items) = Self::parse_items(input, &player.faction)?;
-        let (input, _) = take(4u32)(input)?;
-        Ok((input, Player { items, ..player }))
+            let (input, items) = Self::parse_items(input, &player.faction, version)?;
+            let (input, _) = take(4u32)(input)?;
+            Ok((input, Player { items, ..player }))
+        }
     }
 
     fn parse_name(input: Span) -> ParserResult<String> {
@@ -91,7 +93,7 @@ impl Player {
         Ok((input, steam_id))
     }
 
-    fn parse_items<'a>(input: Span<'a>, faction: &str) -> IResult<Span<'a>, Vec<Item>> {
-        cut(many_m_n(0, Item::get_item_count(faction), Item::parse_item))(input)
+    fn parse_items<'a>(input: Span<'a>, faction: &str, version: u16) -> IResult<Span<'a>, Vec<Item>> {
+        cut(many_m_n(0, Item::get_item_count(faction, version), Item::parse_item))(input)
     }
 }

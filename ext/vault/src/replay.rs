@@ -27,18 +27,18 @@ pub struct Replay {
 impl Replay {
     #[tracable_parser]
     pub fn parse_replay(input: Span) -> ParserResult<Replay> {
-        map(
+        let (input, header) = Header::parse_header(input)?;
+
+        let mut parser = map(
             tuple((
-                Header::parse_header,
                 Chunky::parse_chunky,
-                Chunk::parse_chunk,
+                Chunk::parse_chunk(header.version),
                 Chunky::parse_chunky,
-                Chunk::parse_chunk,
-                Chunk::parse_chunk,
+                Chunk::parse_chunk(header.version),
+                Chunk::parse_chunk(header.version),
                 Ticks::parse_ticks
             )),
             |(
-                header,
                 first_chunky,
                 foldpost_chunk,
                 second_chunky,
@@ -47,14 +47,16 @@ impl Replay {
                 ticks
              )| {
                 Replay {
-                    header,
+                    header: header.clone(),
                     chunkies: vec![first_chunky, second_chunky],
                     chunks: vec![foldpost_chunk, foldinfo_chunk, datasdsc_chunk],
                     length: ticks.commands().len() / 8,
                     ticks
                 }
             }
-        )(input)
+        );
+
+        parser(input)
     }
 
     pub fn len(&self) -> usize {

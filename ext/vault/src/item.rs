@@ -38,12 +38,20 @@ impl Item {
         )(input)
     }
 
-    pub fn get_item_count(faction: &str) -> usize {
-        match faction {
-            "british_africa" => 21,
-            "americans" => 22,
-            "germans" => 25,
-            _ => 28
+    pub fn get_item_count(faction: &str, version: u16) -> usize {
+        if version < 10000 {
+            match faction {
+                "british_africa" => 21,
+                "americans" => 22,
+                _ => 25
+            }
+        } else {
+            match faction {
+                "british_africa" => 21,
+                "americans" => 22,
+                "germans" => 25,
+                _ => 28
+            }
         }
     }
 
