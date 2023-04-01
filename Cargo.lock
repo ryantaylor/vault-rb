@@ -320,7 +320,7 @@ dependencies = [
 [[package]]
 name = "vault"
 version = "2.0.0"
-source = "git+https://github.com/ryantaylor/vault.git?branch=coh3#31bd95bcd8c5615885055ea9a6282115ef258bd7"
+source = "git+https://github.com/ryantaylor/vault.git?branch=coh3#5b355f402a2c546157355418c3cdf5dcc83adfcc"
 dependencies = [
  "byteorder",
  "magnus",

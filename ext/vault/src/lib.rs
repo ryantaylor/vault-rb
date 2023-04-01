@@ -1,5 +1,5 @@
 use magnus::{class, define_module, exception, function, method, prelude::*, Error};
-use vault::{Map, Message, Player, Replay};
+use vault::{Faction, Map, Message, Player, Replay, Team};
 
 #[magnus::init]
 fn init() -> Result<(), Error> {
@@ -34,6 +34,7 @@ fn init() -> Result<(), Error> {
     let player = module.define_class("Player", class::object())?;
     player.define_method("name", method!(Player::name, 0))?;
     player.define_method("faction", method!(Player::faction, 0))?;
+    player.define_method("team", method!(Player::team, 0))?;
     player.define_method("steam_id", method!(Player::steam_id, 0))?;
     player.define_method("profile_id", method!(Player::profile_id, 0))?;
     player.define_method("messages", method!(Player::messages, 0))?;
@@ -41,6 +42,12 @@ fn init() -> Result<(), Error> {
     let message = module.define_class("Message", class::object())?;
     message.define_method("tick", method!(Message::tick, 0))?;
     message.define_method("message", method!(Message::message, 0))?;
+
+    let faction = module.define_class("Faction", class::object())?;
+    faction.define_method("value", method!(Faction::to_string, 0))?;
+
+    let faction = module.define_class("Team", class::object())?;
+    faction.define_method("value", method!(Team::value, 0))?;
 
     Ok(())
 }
