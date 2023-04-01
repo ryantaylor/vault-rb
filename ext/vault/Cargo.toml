@@ -11,12 +11,4 @@ crate-type = ["cdylib"]
 
 [dependencies]
 magnus = { version = "0.5" }
-byteorder = "1"
-nom = "7"
-nom-tracable = "0.8"
-nom_locate = "4"
-serde = { version = "1.0", features = ["derive"] }
-serde_magnus = "0.2"
-
-[features]
-trace = ["nom-tracable/trace"]
+vault = { git = "https://github.com/ryantaylor/vault.git", branch = "coh3", features = ["magnus"] }

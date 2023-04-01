@@ -1,106 +1,51 @@
-extern crate byteorder;
-extern crate nom;
-extern crate nom_locate;
-extern crate nom_tracable;
-extern crate serde_magnus;
-extern crate serde;
-
-use nom_locate::LocatedSpan;
-use nom_tracable::{cumulative_histogram, histogram, TracableInfo};
-use magnus::{define_module, function, prelude::*, Error, define_class, class, method, Value};
-use serde_magnus::serialize;
-use crate::replay::Replay;
-use crate::span::Span;
-
-pub mod chunks;
-pub mod chunky;
-pub mod header;
-pub mod parser;
-pub mod replay;
-pub mod span;
-pub mod player;
-pub mod item;
-pub mod ticks;
-
-fn hello(subject: String) -> String {
-    format!("Hello from Rust, {}!", subject)
-}
-
-fn parse_replay(data: Vec<u8>) -> Result<Value, Error> {
-    let info = TracableInfo::new().parser_width(64).fold("term");
-    let input: Span = LocatedSpan::new_extra(data.as_slice(), info);
-    let replay = match Replay::parse_replay(input) {
-        Ok((_, replay)) => replay,
-        Err(_) => return Err(Error::new(magnus::exception::runtime_error(), "Parsing failed!"))
-    };
-
-    serialize(&replay)
-}
+use magnus::{class, define_module, exception, function, method, prelude::*, Error};
+use vault::{Map, Message, Player, Replay};
 
 #[magnus::init]
 fn init() -> Result<(), Error> {
     let module = define_module("Vault")?;
+
     let replay = module.define_class("Replay", class::object())?;
-    replay.define_singleton_method("parse_replay", function!(parse_replay, 1))?;
+    replay.define_singleton_method("from_bytes", function!(from_bytes, 1))?;
+    replay.define_method("version", method!(Replay::version, 0))?;
+    replay.define_method("timestamp", method!(Replay::timestamp, 0))?;
+    replay.define_method("matchhistory_id", method!(Replay::matchhistory_id, 0))?;
+    replay.define_method("map", method!(Replay::map, 0))?;
+    replay.define_method("map_filename", method!(Replay::map_filename, 0))?;
+    replay.define_method(
+        "map_localized_name_id",
+        method!(Replay::map_localized_name_id, 0),
+    )?;
+    replay.define_method(
+        "map_localized_description_id",
+        method!(Replay::map_localized_description_id, 0),
+    )?;
+    replay.define_method("players", method!(Replay::players, 0))?;
+    replay.define_method("length", method!(Replay::length, 0))?;
+
+    let map = module.define_class("Map", class::object())?;
+    map.define_method("filename", method!(Map::filename, 0))?;
+    map.define_method("localized_name_id", method!(Map::localized_name_id, 0))?;
+    map.define_method(
+        "localized_description_id",
+        method!(Map::localized_description_id, 0),
+    )?;
+
+    let player = module.define_class("Player", class::object())?;
+    player.define_method("name", method!(Player::name, 0))?;
+    player.define_method("faction", method!(Player::faction, 0))?;
+    player.define_method("steam_id", method!(Player::steam_id, 0))?;
+    player.define_method("profile_id", method!(Player::profile_id, 0))?;
+    player.define_method("messages", method!(Player::messages, 0))?;
+
+    let message = module.define_class("Message", class::object())?;
+    message.define_method("tick", method!(Message::tick, 0))?;
+    message.define_method("message", method!(Message::message, 0))?;
+
     Ok(())
 }
 
-#[cfg(test)]
-mod tests {
-    use nom_locate::LocatedSpan;
-    use nom_tracable::{cumulative_histogram, histogram, TracableInfo};
-    use crate::span::Span;
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let info = TracableInfo::new().parser_width(64).fold("term");
-        let data = include_bytes!("/Users/ryantaylor/Downloads/release.rec");
-        let input: Span = LocatedSpan::new_extra(data, info);
-        let (_, replay) = replay::Replay::parse_replay(input).unwrap();
-        println!("{:#?}", replay);
-
-        histogram();
-        cumulative_histogram();
-    }
-
-    #[test]
-    fn test_len() {
-        let info = TracableInfo::new().parser_width(64).fold("term");
-        let data = include_bytes!("/Users/ryantaylor/Downloads/release.rec");
-        let input: Span = LocatedSpan::new_extra(data, info);
-        let (_, replay) = replay::Replay::parse_replay(input).unwrap();
-
-        assert_eq!(replay.len(), 21001)
-    }
-
-    #[test]
-    fn test_version() {
-        let info = TracableInfo::new().parser_width(64).fold("term");
-        let data = include_bytes!("/Users/ryantaylor/Downloads/release.rec");
-        let input: Span = LocatedSpan::new_extra(data, info);
-        let (_, replay) = replay::Replay::parse_replay(input).unwrap();
-
-        assert_eq!(replay.version(), 8369)
-    }
-
-    #[test]
-    fn test_timestamp() {
-        let info = TracableInfo::new().parser_width(64).fold("term");
-        let data = include_bytes!("/Users/ryantaylor/Downloads/release.rec");
-        let input: Span = LocatedSpan::new_extra(data, info);
-        let (_, replay) = replay::Replay::parse_replay(input).unwrap();
-
-        assert_eq!(replay.timestamp(), "2023-02-23 21:18")
-    }
-
-    #[test]
-    fn test_matchhistory_id() {
-        let info = TracableInfo::new().parser_width(64).fold("term");
-        let data = include_bytes!("/Users/ryantaylor/Downloads/release.rec");
-        let input: Span = LocatedSpan::new_extra(data, info);
-        let (_, replay) = replay::Replay::parse_replay(input).unwrap();
-
-        assert_eq!(replay.matchhistory_id(), 150656)
-    }
+fn from_bytes(input: Vec<u8>) -> Result<Replay, Error> {
+    Replay::from_bytes(&input)
+        .map_err(|err| Error::new(exception::runtime_error(), err.to_string()))
 }
