@@ -11,4 +11,4 @@ crate-type = ["cdylib"]
 
 [dependencies]
 magnus = { version = "0.5" }
-vault = { git = "https://github.com/ryantaylor/vault.git", branch = "coh3", features = ["magnus"] }
+vault = { version = "2", features = ["magnus"] }
