@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe Vault do
+RSpec.describe VaultCoh do
   it "has a version number" do
-    expect(Vault::VERSION).not_to be nil
+    expect(VaultCoh::VERSION).not_to be nil
   end
 
   it "does something useful" do

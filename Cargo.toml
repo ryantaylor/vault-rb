@@ -3,5 +3,5 @@
 # in the ext/ directory.
 
 [workspace]
-members = ["./ext/vault"]
+members = ["ext/vault_coh"]
 resolver = "2"

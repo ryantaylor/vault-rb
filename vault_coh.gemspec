@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require_relative "lib/vault/version"
+require_relative "lib/vault_coh/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "vault"
-  spec.version = Vault::VERSION
+  spec.name = "vault_coh"
+  spec.version = VaultCoh::VERSION
   spec.authors = ["ryantaylor"]
   spec.email = ["2320507+ryantaylor@users.noreply.github.com"]
 
   spec.summary = "CoH3 replay parsing in Ruby with Rust"
   spec.description = spec.summary
-  spec.homepage = "https://github.com/ryantaylor/vault-rb"
+  spec.homepage = "https://github.com/ryantaylor/vault_coh-rb"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.6.0"
   spec.required_rubygems_version = ">= 3.3.11"
@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.bindir = "exe"
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
-  spec.extensions = ["ext/vault/Cargo.toml"]
+  spec.extensions = ["ext/vault_coh/Cargo.toml"]
 
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"

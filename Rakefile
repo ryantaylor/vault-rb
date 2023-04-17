@@ -13,8 +13,8 @@ require "rake/extensiontask"
 
 task build: :compile
 
-Rake::ExtensionTask.new("vault") do |ext|
-  ext.lib_dir = "lib/vault"
+Rake::ExtensionTask.new("vault_coh") do |ext|
+  ext.lib_dir = "lib/vault_coh"
 end
 
 task default: %i[compile spec rubocop]

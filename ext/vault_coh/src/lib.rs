@@ -3,7 +3,7 @@ use vault::{Faction, Map, Message, Player, Replay, Team};
 
 #[magnus::init]
 fn init() -> Result<(), Error> {
-    let module = define_module("Vault")?;
+    let module = define_module("VaultCoh")?;
 
     let replay = module.define_class("Replay", class::object())?;
     replay.define_singleton_method("from_bytes", function!(from_bytes, 1))?;
