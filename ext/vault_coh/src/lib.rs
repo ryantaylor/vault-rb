@@ -46,8 +46,8 @@ fn init() -> Result<(), Error> {
     let faction = module.define_class("Faction", class::object())?;
     faction.define_method("value", method!(Faction::to_string, 0))?;
 
-    let faction = module.define_class("Team", class::object())?;
-    faction.define_method("value", method!(Team::value, 0))?;
+    let team = module.define_class("Team", class::object())?;
+    team.define_method("value", method!(Team::value, 0))?;
 
     Ok(())
 }
