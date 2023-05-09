@@ -1,34 +1,36 @@
 # Vault
 
-TODO: Delete this and the text below, and describe your gem
+[![Documentation](https://img.shields.io/badge/View-Documentation-blue.svg)](https://rubydoc.info/github/ryantaylor/vault-rb/v0.1.0)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/vault`. To experiment with that code, run `bin/console` for an interactive prompt.
+A native Ruby client wrapper for the [vault](https://github.com/ryantaylor/vault) Company of Heroes replay parser, integrated via a Rust native extension.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+First, make sure you have a relatively recent version of the Rust toolchain installed (minimum supported Rust version for `vault` is 1.61.0). You can install Rust easily using [rustup](https://rustup.rs/).
 
-Install the gem and add to the application's Gemfile by executing:
-
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
-
-If bundler is not being used to manage dependencies, install the gem by executing:
-
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+Then you can add to Gemfile:
+```
+gem 'vault_coh'
+```
+And run `bundle install`.
 
 ## Usage
 
-TODO: Write usage instructions here
+Currently `vault` accepts a byte array and parses it as a Company of Heroes 3 replay file, returning a parsed object when successful or an error on failure:
+```ruby
+require 'vault_coh'
 
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+bytes = File.read('/path/to/replay.rec').unpack('C*')
+replay = VaultCoh::Replay.from_bytes(bytes)
+puts replay.version
+```
+All information available from parsing can be found in the [documentation](https://rubydoc.info/github/ryantaylor/vault-rb/v0.1.0).
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/vault.
+Bug reports and pull requests are welcome on GitHub at https://github.com/ryantaylor/vault-rb.
+
+If you need to make changes to the Rust code, you can compile the extension by running `rake compile` or run tests with `cargo test`.
 
 ## License
 
