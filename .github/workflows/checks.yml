@@ -12,15 +12,29 @@ jobs:
     name: Ruby Tests
     strategy:
       matrix:
+        rust:
+          - stable
+          - 1.61.0
         ruby:
           - '3.2'
     steps:
       - uses: actions/checkout@v3
+
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust }}
+          override: true
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
+
+      - name: Compile gem
+        run: bundle exec rake compile
+
       - name: Run tests
         run: bundle exec rspec
 
@@ -33,11 +47,13 @@ jobs:
           - '3.2'
     steps:
       - uses: actions/checkout@v3
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
+
       - name: Run Rubocop
         run: bundle exec rubocop
 
@@ -140,32 +156,3 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: test
-
-  compile:
-    name: Gem Compilation
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        rust:
-          - stable
-          - 1.61.0
-        ruby:
-          - '3.2'
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v3
-
-      - name: Install Rust toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: ${{ matrix.rust }}
-          override: true
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
-
-      - name: Compile
-        run: bundle exec rake compile
