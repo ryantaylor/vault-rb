@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    vault_coh (1.0.0)
+    vault_coh (0.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -49,6 +49,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
+  x86_64-linux
 
 DEPENDENCIES
   rake (~> 13.0)

@@ -9,7 +9,8 @@ Gem::Specification.new do |spec|
   spec.email = ['2320507+ryantaylor@users.noreply.github.com']
 
   spec.summary = 'CoH3 replay parsing in Ruby with Rust'
-  spec.description = 'Company of Heroes replay parsing in Ruby using the vault parsing library via a Rust native extension.'
+  spec.description =
+    'Company of Heroes replay parsing in Ruby using the vault parsing library via a Rust native extension.'
   spec.homepage = 'https://github.com/ryantaylor/vault-rb'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 3.1.0'
