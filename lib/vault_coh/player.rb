@@ -24,6 +24,13 @@ module VaultCoh
     # @return [Team]
     def team; end
 
+    # The pbgid of the battlegroup the player selected, or +nil+ if no
+    # battlegroup was selected. For details on what this ID represents
+    # please see {Commands::SelectBattlegroup#pbgid}.
+    #
+    # @return [Integer|NilClass]
+    def battlegroup; end
+
     # The Steam ID of the player. This ID can be used to uniquely
     # identify a player between replays, and connect them to their
     # Steam profile.
@@ -44,5 +51,18 @@ module VaultCoh
     #
     # @return [Array<Message>]
     def messages; end
+
+    # A list of all commands executed by the player in the match.
+    # Sorted chronologically from first to last.
+    #
+    # @return [Array<Command>]
+    def commands; end
+
+    # A list of only build-related commands executed by the player in
+    # the match. A build command is any that enqueues the construction
+    # of a new unit. Sorted chronologically from first to last.
+    #
+    # @return [Array<Commands::BuildSquad>]
+    def build_commands; end
   end
 end
