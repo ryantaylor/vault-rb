@@ -1,5 +1,5 @@
 use magnus::{class, define_module, exception, function, method, prelude::*, Error};
-use vault::{Faction, Map, Message, Player, Replay, Team};
+use vault::{BuildSquad, Command, Faction, Map, Message, Player, Replay, Team, Unknown};
 
 #[magnus::init]
 fn init() -> Result<(), Error> {
@@ -38,6 +38,8 @@ fn init() -> Result<(), Error> {
     player.define_method("steam_id", method!(Player::steam_id, 0))?;
     player.define_method("profile_id", method!(Player::profile_id, 0))?;
     player.define_method("messages", method!(Player::messages, 0))?;
+    player.define_method("commands", method!(Player::commands, 0))?;
+    player.define_method("build_commands", method!(Player::build_commands, 0))?;
 
     let message = module.define_class("Message", class::object())?;
     message.define_method("tick", method!(Message::tick, 0))?;
@@ -49,6 +51,24 @@ fn init() -> Result<(), Error> {
     let team = module.define_class("Team", class::object())?;
     team.define_method("value", method!(Team::value, 0))?;
 
+    let command = module.define_class("Command", class::object())?;
+
+    let commands_module = module.define_module("Commands")?;
+
+    let build_squad_command = commands_module.define_class("BuildSquadCommand", command)?;
+    build_squad_command.define_method("value", method!(Command::extract_build_squad , 0))?;
+
+    let build_squad = commands_module.define_class("BuildSquad", class::object())?;
+    build_squad.define_method("tick", method!(BuildSquad::tick, 0))?;
+    build_squad.define_method("pbgid", method!(BuildSquad::pbgid, 0))?;
+
+    let unknown_command = commands_module.define_class("UnknownCommand", command)?;
+    unknown_command.define_method("value", method!(Command::extract_unknown, 0))?;
+
+    let unknown = commands_module.define_class("Unknown", class::object())?;
+    unknown.define_method("tick", method!(Unknown::tick, 0))?;
+    unknown.define_method("action_type", method!(Unknown::action_type, 0))?;
+
     Ok(())
 }
 
@@ -56,3 +76,19 @@ fn from_bytes(input: Vec<u8>) -> Result<Replay, Error> {
     Replay::from_bytes(&input)
         .map_err(|err| Error::new(exception::runtime_error(), err.to_string()))
 }
+
+// fn into_build_squad(rb_self: Command) -> Result<BuildSquad, Error> {
+//     if let Command::BuildSquadCommand(command) = rb_self {
+//         Ok(command.clone())
+//     } else {
+//         panic!()
+//     }
+// }
+//
+// fn into_unknown(rb_self: Command) -> Result<Unknown, Error> {
+//     if let Command::UnknownCommand(command) = rb_self {
+//         Ok(command.clone())
+//     } else {
+//         panic!()
+//     }
+// }

@@ -11,4 +11,5 @@ crate-type = ["cdylib"]
 
 [dependencies]
 magnus = { version = "0.5" }
-vault = { version = "3", features = ["magnus"] }
+#vault = { version = "3", features = ["magnus"] }
+vault = { path = "/Users/ryantaylor/Code/vault", features = ["magnus"] }
