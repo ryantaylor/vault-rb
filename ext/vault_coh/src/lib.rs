@@ -1,6 +1,6 @@
 use magnus::{class, define_module, exception, function, method, prelude::*, Error};
-use vault::{Command, Faction, Map, Message, Player, Replay, Team};
 use vault::commands::{BuildSquad, SelectBattlegroup, Unknown};
+use vault::{Command, Faction, Map, Message, Player, Replay, Team};
 
 #[magnus::init]
 fn init() -> Result<(), Error> {
@@ -58,14 +58,16 @@ fn init() -> Result<(), Error> {
     let commands_module = module.define_module("Commands")?;
 
     let build_squad_command = commands_module.define_class("BuildSquadCommand", command)?;
-    build_squad_command.define_method("value", method!(Command::extract_build_squad , 0))?;
+    build_squad_command.define_method("value", method!(Command::extract_build_squad, 0))?;
 
     let build_squad = commands_module.define_class("BuildSquad", class::object())?;
     build_squad.define_method("tick", method!(BuildSquad::tick, 0))?;
     build_squad.define_method("pbgid", method!(BuildSquad::pbgid, 0))?;
 
-    let select_battlegroup_command = commands_module.define_class("SelectBattlegroupCommand", command)?;
-    select_battlegroup_command.define_method("value", method!(Command::extract_select_battlegroup , 0))?;
+    let select_battlegroup_command =
+        commands_module.define_class("SelectBattlegroupCommand", command)?;
+    select_battlegroup_command
+        .define_method("value", method!(Command::extract_select_battlegroup, 0))?;
 
     let select_battlegroup = commands_module.define_class("SelectBattlegroup", class::object())?;
     select_battlegroup.define_method("tick", method!(SelectBattlegroup::tick, 0))?;
