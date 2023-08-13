@@ -1,5 +1,6 @@
 use magnus::{class, define_module, exception, function, method, prelude::*, Error};
-use vault::{BuildSquad, Command, Faction, Map, Message, Player, Replay, Team, Unknown};
+use vault::{Command, Faction, Map, Message, Player, Replay, Team};
+use vault::commands::{BuildSquad, SelectBattlegroup, Unknown};
 
 #[magnus::init]
 fn init() -> Result<(), Error> {
@@ -35,6 +36,7 @@ fn init() -> Result<(), Error> {
     player.define_method("name", method!(Player::name, 0))?;
     player.define_method("faction", method!(Player::faction, 0))?;
     player.define_method("team", method!(Player::team, 0))?;
+    player.define_method("battlegroup", method!(Player::battlegroup, 0))?;
     player.define_method("steam_id", method!(Player::steam_id, 0))?;
     player.define_method("profile_id", method!(Player::profile_id, 0))?;
     player.define_method("messages", method!(Player::messages, 0))?;
@@ -62,6 +64,13 @@ fn init() -> Result<(), Error> {
     build_squad.define_method("tick", method!(BuildSquad::tick, 0))?;
     build_squad.define_method("pbgid", method!(BuildSquad::pbgid, 0))?;
 
+    let select_battlegroup_command = commands_module.define_class("SelectBattlegroupCommand", command)?;
+    select_battlegroup_command.define_method("value", method!(Command::extract_select_battlegroup , 0))?;
+
+    let select_battlegroup = commands_module.define_class("SelectBattlegroup", class::object())?;
+    select_battlegroup.define_method("tick", method!(SelectBattlegroup::tick, 0))?;
+    select_battlegroup.define_method("pbgid", method!(SelectBattlegroup::pbgid, 0))?;
+
     let unknown_command = commands_module.define_class("UnknownCommand", command)?;
     unknown_command.define_method("value", method!(Command::extract_unknown, 0))?;
 
@@ -76,19 +85,3 @@ fn from_bytes(input: Vec<u8>) -> Result<Replay, Error> {
     Replay::from_bytes(&input)
         .map_err(|err| Error::new(exception::runtime_error(), err.to_string()))
 }
-
-// fn into_build_squad(rb_self: Command) -> Result<BuildSquad, Error> {
-//     if let Command::BuildSquadCommand(command) = rb_self {
-//         Ok(command.clone())
-//     } else {
-//         panic!()
-//     }
-// }
-//
-// fn into_unknown(rb_self: Command) -> Result<Unknown, Error> {
-//     if let Command::UnknownCommand(command) = rb_self {
-//         Ok(command.clone())
-//     } else {
-//         panic!()
-//     }
-// }
