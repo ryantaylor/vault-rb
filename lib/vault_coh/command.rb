@@ -8,5 +8,10 @@ module VaultCoh
     #
     # @return [Commands::BuildSquad|Commands::SelectBattlegroup|Commands::Unknown]
     def value; end
+
+    # Returns a hash representation of the object.
+    #
+    # @return [Hash]
+    def to_h; end
   end
 end
