@@ -61,6 +61,7 @@ fn init() -> Result<(), Error> {
     team.define_method("value", method!(Team::value, 0))?;
 
     let command = module.define_class("Command", class::object())?;
+    command.define_method("to_h", method!(Command::to_h, 0))?;
 
     let commands_module = module.define_module("Commands")?;
 
