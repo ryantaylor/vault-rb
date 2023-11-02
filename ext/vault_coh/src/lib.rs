@@ -1,3 +1,6 @@
+mod attributes;
+
+use crate::attributes::AttributesExt;
 use magnus::{class, define_module, exception, function, method, prelude::*, Error};
 use vault::commands::{BuildSquad, SelectBattlegroup, Unknown};
 use vault::{Command, Faction, Map, Message, Player, Replay, Team};
@@ -46,6 +49,7 @@ fn init() -> Result<(), Error> {
     let message = module.define_class("Message", class::object())?;
     message.define_method("tick", method!(Message::tick, 0))?;
     message.define_method("message", method!(Message::message, 0))?;
+    message.define_method("attributes", method!(Message::attributes, 0))?;
 
     let faction = module.define_class("Faction", class::object())?;
     faction.define_method("value", method!(Faction::to_string, 0))?;
@@ -63,6 +67,7 @@ fn init() -> Result<(), Error> {
     let build_squad = commands_module.define_class("BuildSquad", class::object())?;
     build_squad.define_method("tick", method!(BuildSquad::tick, 0))?;
     build_squad.define_method("pbgid", method!(BuildSquad::pbgid, 0))?;
+    build_squad.define_method("attributes", method!(BuildSquad::attributes, 0))?;
 
     let select_battlegroup_command =
         commands_module.define_class("SelectBattlegroupCommand", command)?;
@@ -72,6 +77,7 @@ fn init() -> Result<(), Error> {
     let select_battlegroup = commands_module.define_class("SelectBattlegroup", class::object())?;
     select_battlegroup.define_method("tick", method!(SelectBattlegroup::tick, 0))?;
     select_battlegroup.define_method("pbgid", method!(SelectBattlegroup::pbgid, 0))?;
+    select_battlegroup.define_method("attributes", method!(SelectBattlegroup::attributes, 0))?;
 
     let unknown_command = commands_module.define_class("UnknownCommand", command)?;
     unknown_command.define_method("value", method!(Command::extract_unknown, 0))?;
@@ -79,6 +85,7 @@ fn init() -> Result<(), Error> {
     let unknown = commands_module.define_class("Unknown", class::object())?;
     unknown.define_method("tick", method!(Unknown::tick, 0))?;
     unknown.define_method("action_type", method!(Unknown::action_type, 0))?;
+    unknown.define_method("attributes", method!(Unknown::attributes, 0))?;
 
     Ok(())
 }
