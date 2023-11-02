@@ -25,6 +25,11 @@ module VaultCoh
       #
       # @return [Integer] unsigned, 32 bits
       def pbgid; end
+
+      # Returns a hash representation of the object.
+      #
+      # @return [Hash]
+      def to_h; end
     end
   end
 end

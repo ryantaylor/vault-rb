@@ -20,5 +20,10 @@ module VaultCoh
     #
     # @return [String]
     def message; end
+
+    # Returns a hash representation of the object.
+    #
+    # @return [Hash]
+    def to_h; end
   end
 end
