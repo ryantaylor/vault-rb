@@ -10,5 +10,6 @@ publish = false
 crate-type = ["cdylib"]
 
 [dependencies]
-magnus = { version = "0.5" }
-vault = { version = "4", features = ["magnus"] }
+magnus = { version = "0.6" }
+serde_magnus = { version = "0.8" }
+vault = { version = "5", features = ["magnus", "serde"] }

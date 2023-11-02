@@ -28,5 +28,10 @@ module VaultCoh
     #
     # @return [String]
     def localized_description_id; end
+
+    # Returns a hash representation of the object.
+    #
+    # @return [Hash]
+    def to_h; end
   end
 end

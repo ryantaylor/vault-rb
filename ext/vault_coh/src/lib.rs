@@ -1,3 +1,6 @@
+mod hash;
+
+use crate::hash::HashExt;
 use magnus::{class, define_module, exception, function, method, prelude::*, Error};
 use vault::commands::{BuildSquad, SelectBattlegroup, Unknown};
 use vault::{Command, Faction, Map, Message, Player, Replay, Team};
@@ -23,6 +26,7 @@ fn init() -> Result<(), Error> {
     )?;
     replay.define_method("players", method!(Replay::players, 0))?;
     replay.define_method("length", method!(Replay::length, 0))?;
+    replay.define_method("to_h", method!(Replay::to_h, 0))?;
 
     let map = module.define_class("Map", class::object())?;
     map.define_method("filename", method!(Map::filename, 0))?;
@@ -31,6 +35,7 @@ fn init() -> Result<(), Error> {
         "localized_description_id",
         method!(Map::localized_description_id, 0),
     )?;
+    map.define_method("to_h", method!(Map::to_h, 0))?;
 
     let player = module.define_class("Player", class::object())?;
     player.define_method("name", method!(Player::name, 0))?;
@@ -42,10 +47,12 @@ fn init() -> Result<(), Error> {
     player.define_method("messages", method!(Player::messages, 0))?;
     player.define_method("commands", method!(Player::commands, 0))?;
     player.define_method("build_commands", method!(Player::build_commands, 0))?;
+    player.define_method("to_h", method!(Player::to_h, 0))?;
 
     let message = module.define_class("Message", class::object())?;
     message.define_method("tick", method!(Message::tick, 0))?;
     message.define_method("message", method!(Message::message, 0))?;
+    message.define_method("to_h", method!(Message::to_h, 0))?;
 
     let faction = module.define_class("Faction", class::object())?;
     faction.define_method("value", method!(Faction::to_string, 0))?;
@@ -63,6 +70,7 @@ fn init() -> Result<(), Error> {
     let build_squad = commands_module.define_class("BuildSquad", class::object())?;
     build_squad.define_method("tick", method!(BuildSquad::tick, 0))?;
     build_squad.define_method("pbgid", method!(BuildSquad::pbgid, 0))?;
+    build_squad.define_method("to_h", method!(BuildSquad::to_h, 0))?;
 
     let select_battlegroup_command =
         commands_module.define_class("SelectBattlegroupCommand", command)?;
@@ -72,6 +80,7 @@ fn init() -> Result<(), Error> {
     let select_battlegroup = commands_module.define_class("SelectBattlegroup", class::object())?;
     select_battlegroup.define_method("tick", method!(SelectBattlegroup::tick, 0))?;
     select_battlegroup.define_method("pbgid", method!(SelectBattlegroup::pbgid, 0))?;
+    select_battlegroup.define_method("to_h", method!(SelectBattlegroup::to_h, 0))?;
 
     let unknown_command = commands_module.define_class("UnknownCommand", command)?;
     unknown_command.define_method("value", method!(Command::extract_unknown, 0))?;
@@ -79,6 +88,7 @@ fn init() -> Result<(), Error> {
     let unknown = commands_module.define_class("Unknown", class::object())?;
     unknown.define_method("tick", method!(Unknown::tick, 0))?;
     unknown.define_method("action_type", method!(Unknown::action_type, 0))?;
+    unknown.define_method("to_h", method!(Unknown::to_h, 0))?;
 
     Ok(())
 }

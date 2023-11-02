@@ -82,5 +82,10 @@ module VaultCoh
     #
     # @return [Integer]
     def length; end
+
+    # Returns a hash representation of the object.
+    #
+    # @return [Hash]
+    def to_h; end
   end
 end

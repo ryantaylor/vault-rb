@@ -22,6 +22,11 @@ module VaultCoh
       #
       # @return [Integer] unsigned, 8 bits
       def action_type; end
+
+      # Returns a hash representation of the object.
+      #
+      # @return [Hash]
+      def to_h; end
     end
   end
 end

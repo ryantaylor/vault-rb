@@ -64,5 +64,10 @@ module VaultCoh
     #
     # @return [Array<Commands::BuildSquad>]
     def build_commands; end
+
+    # Returns a hash representation of the object.
+    #
+    # @return [Hash]
+    def to_h; end
   end
 end
