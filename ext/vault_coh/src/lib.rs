@@ -2,7 +2,9 @@ mod hash;
 
 use crate::hash::HashExt;
 use magnus::{class, define_module, exception, function, method, prelude::*, Error};
-use vault::commands::{BuildSquad, SelectBattlegroup, Unknown};
+use vault::commands::{
+    BuildSquad, SelectBattlegroup, SelectBattlegroupAbility, Unknown, UseBattlegroupAbility,
+};
 use vault::{Command, Faction, Map, Message, Player, Replay, Team};
 
 #[magnus::init]
@@ -47,6 +49,10 @@ fn init() -> Result<(), Error> {
     player.define_method("messages", method!(Player::messages, 0))?;
     player.define_method("commands", method!(Player::commands, 0))?;
     player.define_method("build_commands", method!(Player::build_commands, 0))?;
+    player.define_method(
+        "battlegroup_commands",
+        method!(Player::battlegroup_commands, 0),
+    )?;
     player.define_method("to_h", method!(Player::to_h, 0))?;
 
     let message = module.define_class("Message", class::object())?;
@@ -82,6 +88,33 @@ fn init() -> Result<(), Error> {
     select_battlegroup.define_method("tick", method!(SelectBattlegroup::tick, 0))?;
     select_battlegroup.define_method("pbgid", method!(SelectBattlegroup::pbgid, 0))?;
     select_battlegroup.define_method("to_h", method!(SelectBattlegroup::to_h, 0))?;
+
+    let select_battlegroup_ability_command =
+        commands_module.define_class("SelectBattlegroupAbilityCommand", command)?;
+    select_battlegroup_ability_command.define_method(
+        "value",
+        method!(Command::extract_select_battlegroup_ability, 0),
+    )?;
+
+    let select_battlegroup_ability =
+        commands_module.define_class("SelectBattlegroupAbility", class::object())?;
+    select_battlegroup_ability.define_method("tick", method!(SelectBattlegroupAbility::tick, 0))?;
+    select_battlegroup_ability
+        .define_method("pbgid", method!(SelectBattlegroupAbility::pbgid, 0))?;
+    select_battlegroup_ability.define_method("to_h", method!(SelectBattlegroupAbility::to_h, 0))?;
+
+    let use_battlegroup_ability_command =
+        commands_module.define_class("UseBattlegroupAbilityCommand", command)?;
+    use_battlegroup_ability_command.define_method(
+        "value",
+        method!(Command::extract_use_battlegroup_ability, 0),
+    )?;
+
+    let use_battlegroup_ability =
+        commands_module.define_class("UseBattlegroupAbility", class::object())?;
+    use_battlegroup_ability.define_method("tick", method!(UseBattlegroupAbility::tick, 0))?;
+    use_battlegroup_ability.define_method("pbgid", method!(UseBattlegroupAbility::pbgid, 0))?;
+    use_battlegroup_ability.define_method("to_h", method!(UseBattlegroupAbility::to_h, 0))?;
 
     let unknown_command = commands_module.define_class("UnknownCommand", command)?;
     unknown_command.define_method("value", method!(Command::extract_unknown, 0))?;

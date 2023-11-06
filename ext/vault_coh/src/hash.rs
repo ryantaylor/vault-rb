@@ -1,5 +1,7 @@
 use magnus::Value;
-use vault::commands::{BuildSquad, SelectBattlegroup, Unknown};
+use vault::commands::{
+    BuildSquad, SelectBattlegroup, SelectBattlegroupAbility, Unknown, UseBattlegroupAbility,
+};
 use vault::{Command, Map, Message, Player, Replay};
 
 pub trait HashExt {
@@ -43,6 +45,18 @@ impl HashExt for BuildSquad {
 }
 
 impl HashExt for SelectBattlegroup {
+    fn to_h(&self) -> Value {
+        serde_magnus::serialize(self).unwrap()
+    }
+}
+
+impl HashExt for SelectBattlegroupAbility {
+    fn to_h(&self) -> Value {
+        serde_magnus::serialize(self).unwrap()
+    }
+}
+
+impl HashExt for UseBattlegroupAbility {
     fn to_h(&self) -> Value {
         serde_magnus::serialize(self).unwrap()
     }
