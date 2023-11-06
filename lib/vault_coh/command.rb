@@ -6,7 +6,11 @@ module VaultCoh
     # Data object that contains information specific to the
     # type of command it represents.
     #
-    # @return [Commands::BuildSquad|Commands::SelectBattlegroup|Commands::Unknown]
+    # @return [Commands::BuildSquad |
+    #          Commands::SelectBattlegroup |
+    #          Commands::SelectBattlegroupAbility |
+    #          Commands::UseBattlegroupAbility |
+    #          Commands::Unknown]
     def value; end
 
     # Returns a hash representation of the object.

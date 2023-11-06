@@ -65,6 +65,16 @@ module VaultCoh
     # @return [Array<Commands::BuildSquad>]
     def build_commands; end
 
+    # A list of only battlegroup-related commands executed by the player
+    # in the match. A battlegroup command is any that involves the select
+    # or use of battlegroups and their abilities. Sorted chronologically
+    # from first to last.
+    #
+    # @return [Array<Commands::SelectBattlegroupCommand |
+    #                Commands::SelectBattlegroupAbilityCommand |
+    #                Commands::UseBattlegroupAbilityCommand>]
+    def battlegroup_commands; end
+
     # Returns a hash representation of the object.
     #
     # @return [Hash]
