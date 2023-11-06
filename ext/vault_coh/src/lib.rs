@@ -49,7 +49,10 @@ fn init() -> Result<(), Error> {
     player.define_method("messages", method!(Player::messages, 0))?;
     player.define_method("commands", method!(Player::commands, 0))?;
     player.define_method("build_commands", method!(Player::build_commands, 0))?;
-    player.define_method("battlegroup_commands", method!(Player::battlegroup_commands, 0))?;
+    player.define_method(
+        "battlegroup_commands",
+        method!(Player::battlegroup_commands, 0),
+    )?;
     player.define_method("to_h", method!(Player::to_h, 0))?;
 
     let message = module.define_class("Message", class::object())?;
