@@ -3,7 +3,8 @@ mod hash;
 use crate::hash::HashExt;
 use magnus::{class, define_module, exception, function, method, prelude::*, Error};
 use vault::commands::{
-    BuildSquad, SelectBattlegroup, SelectBattlegroupAbility, Unknown, UseBattlegroupAbility,
+    BuildGlobalUpgrade, BuildSquad, SelectBattlegroup, SelectBattlegroupAbility, Unknown,
+    UseBattlegroupAbility,
 };
 use vault::{Command, Faction, Map, Message, Player, Replay, Team};
 
@@ -70,6 +71,17 @@ fn init() -> Result<(), Error> {
     command.define_method("to_h", method!(Command::to_h, 0))?;
 
     let commands_module = module.define_module("Commands")?;
+
+    let build_global_upgrade_command =
+        commands_module.define_class("BuildGlobalUpgradeCommand", command)?;
+    build_global_upgrade_command
+        .define_method("value", method!(Command::extract_build_global_upgrade, 0))?;
+
+    let build_global_upgrade =
+        commands_module.define_class("BuildGlobalUpgrade", class::object())?;
+    build_global_upgrade.define_method("tick", method!(BuildGlobalUpgrade::tick, 0))?;
+    build_global_upgrade.define_method("pbgid", method!(BuildGlobalUpgrade::pbgid, 0))?;
+    build_global_upgrade.define_method("to_h", method!(BuildGlobalUpgrade::to_h, 0))?;
 
     let build_squad_command = commands_module.define_class("BuildSquadCommand", command)?;
     build_squad_command.define_method("value", method!(Command::extract_build_squad, 0))?;
