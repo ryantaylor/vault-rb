@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    vault_coh (2.2.0)
+    vault_coh (3.0.0)
 
 GEM
   remote: https://rubygems.org/

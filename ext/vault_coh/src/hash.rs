@@ -1,6 +1,7 @@
 use magnus::Value;
 use vault::commands::{
-    BuildSquad, SelectBattlegroup, SelectBattlegroupAbility, Unknown, UseBattlegroupAbility,
+    BuildGlobalUpgrade, BuildSquad, SelectBattlegroup, SelectBattlegroupAbility, Unknown,
+    UseBattlegroupAbility,
 };
 use vault::{Command, Map, Message, Player, Replay};
 
@@ -33,6 +34,12 @@ impl HashExt for Message {
 }
 
 impl HashExt for Command {
+    fn to_h(&self) -> Value {
+        serde_magnus::serialize(self).unwrap()
+    }
+}
+
+impl HashExt for BuildGlobalUpgrade {
     fn to_h(&self) -> Value {
         serde_magnus::serialize(self).unwrap()
     }
