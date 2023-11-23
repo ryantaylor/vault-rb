@@ -60,9 +60,9 @@ module VaultCoh
 
     # A list of only build-related commands executed by the player in
     # the match. A build command is any that enqueues the construction
-    # of a new unit. Sorted chronologically from first to last.
+    # of a new unit or upgrade. Sorted chronologically from first to last.
     #
-    # @return [Array<Commands::BuildSquad>]
+    # @return [Array<Command>]
     def build_commands; end
 
     # A list of only battlegroup-related commands executed by the player

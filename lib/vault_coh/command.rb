@@ -6,7 +6,8 @@ module VaultCoh
     # Data object that contains information specific to the
     # type of command it represents.
     #
-    # @return [Commands::BuildSquad |
+    # @return [Commands::BuildGlobalUpgrade |
+    #          Commands::BuildSquad |
     #          Commands::SelectBattlegroup |
     #          Commands::SelectBattlegroupAbility |
     #          Commands::UseBattlegroupAbility |
