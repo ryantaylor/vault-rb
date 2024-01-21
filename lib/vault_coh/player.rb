@@ -13,6 +13,11 @@ module VaultCoh
     # @return [String]
     def name; end
 
+    # Whether or not the player was a human or an AI/CPU player.
+    #
+    # @return [Boolean]
+    def human?; end
+
     # The faction selected by the player in this match.
     #
     # @return [Faction]
@@ -31,19 +36,19 @@ module VaultCoh
     # @return [Integer|NilClass]
     def battlegroup; end
 
-    # The Steam ID of the player. This ID can be used to uniquely
-    # identify a player between replays, and connect them to their
-    # Steam profile.
+    # The Steam ID of the player, or +nil+ if the player is AI. This ID
+    # can be used to uniquely identify a player between replays, and
+    # connect them to their Steam profile.
     #
-    # @return [Integer] unsigned, 64 bits
+    # @return [Integer|NilClass] unsigned, 64 bits
     def steam_id; end
 
-    # The Relic profile ID of the player. This ID can be used to
-    # uniquely identify a player between replays, and can be used to
-    # query statistical information about the player from Relic’s
-    # stats API.
+    # The Relic profile ID of the player, or +nil+ if the player is AI.
+    # This ID can be used to uniquely identify a player between replays,
+    # and can be used to query statistical information about the player
+    # from Relic’s stats API.
     #
-    # @return [Integer] unsigned, 64 bits
+    # @return [Integer|NilClass] unsigned, 64 bits
     def profile_id; end
 
     # A list of all messages sent by the player in the match. Sorted
