@@ -42,6 +42,7 @@ fn init() -> Result<(), Error> {
 
     let player = module.define_class("Player", class::object())?;
     player.define_method("name", method!(Player::name, 0))?;
+    player.define_method("human?", method!(Player::human, 0))?;
     player.define_method("faction", method!(Player::faction, 0))?;
     player.define_method("team", method!(Player::team, 0))?;
     player.define_method("battlegroup", method!(Player::battlegroup, 0))?;
