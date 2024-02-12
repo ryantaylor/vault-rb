@@ -361,10 +361,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
 
 [[package]]
-name = "vault"
-version = "7.0.0"
+name = "uuid"
+version = "1.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c883ce2ee65509850bbf77b935dac0d6876392de077138650de1f5d109381bd8"
+checksum = "f00cc9702ca12d3c81455259621e676d0f7251cec66a21e98fe2e9a37db93b2a"
+dependencies = [
+ "serde",
+]
+
+[[package]]
+name = "vault"
+version = "8.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "401c25d59ac1ca36a13d384627e8e86b425524f08f69d9eace9b4aa45ddcd88a"
 dependencies = [
  "byteorder",
  "magnus",
@@ -372,6 +381,7 @@ dependencies = [
  "nom-tracable",
  "nom_locate",
  "serde",
+ "uuid",
 ]
 
 [[package]]
