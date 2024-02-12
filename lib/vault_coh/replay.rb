@@ -40,13 +40,33 @@ module VaultCoh
     # @return [String]
     def timestamp; end
 
+    # The type of game this replay represents. Note that this information
+    # is parsed on a best-effort basis and therefore may not always be
+    # correct. Also note that it's currently not known if there's a way to
+    # differentiate between automatch and custom games for replays recorded
+    # before the replay system release in patch 1.4.0. Games played before
+    # that patch will be marked as either +skirmish+ (for local AI games) or
+    # +multiplayer+ (for networked custom or automatch games). Games recorded
+    # on or after patch 1.4.0 will properly differentiate between +custom+
+    # and +automatch+ games.
+    #
+    # @return [GameType::SKIRMISH|GameType::MULTIPLAYER|GameType::AUTOMATCH|GameType::CUSTOM]
+    def game_type; end
+
     # The ID used by Relic to track this match on their internal servers.
     # This ID can be matched with an ID of the same name returned by
     # Relic’s CoH3 stats API, enabling linkage between replay files and
-    # statistical information for a match.
+    # statistical information for a match. When the game type is +skirmish+,
+    # there is no ID assigned by Relic, so this will be +nil+.
     #
-    # @return [Integer] unsigned, 64 bits
+    # @return [Integer|NilClass] unsigned, 64 bits
     def matchhistory_id; end
+
+    # The UUID of the base game mod this replay ran on. If no mod was used,
+    # this will be a nil UUID (all zeroes).
+    #
+    # @return [String]
+    def mod_uuid; end
 
     # Map information for this match.
     #

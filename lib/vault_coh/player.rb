@@ -20,13 +20,13 @@ module VaultCoh
 
     # The faction selected by the player in this match.
     #
-    # @return [Faction]
+    # @return [Faction::AMERICANS|Faction::WEHRMACHT|Faction::BRITISH|Faction::AFRIKAKORPS]
     def faction; end
 
     # The team the player was assigned to. Currently only head-to-head
     # matchups are supported (max two teams).
     #
-    # @return [Team]
+    # @return [Team::FIRST|Team::SECOND]
     def team; end
 
     # The pbgid of the battlegroup the player selected, or +nil+ if no
