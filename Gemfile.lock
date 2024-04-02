@@ -17,7 +17,7 @@ GEM
     prism (0.24.0)
     racc (1.7.3)
     rainbow (3.1.1)
-    rake (13.1.0)
+    rake (13.2.0)
     rake-compiler (1.2.7)
       rake
     rb_sys (0.9.89)
@@ -58,7 +58,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  rake (~> 13.0)
+  rake (~> 13.2)
   rake-compiler
   rb_sys
   rspec (~> 3.13)
