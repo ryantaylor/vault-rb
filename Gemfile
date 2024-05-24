@@ -12,4 +12,4 @@ gem 'rb_sys'
 
 gem 'rspec', '~> 3.13'
 
-gem 'rubocop', '~> 1.63'
+gem 'rubocop', '~> 1.64'
