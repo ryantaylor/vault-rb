@@ -6,7 +6,7 @@ A native Ruby client wrapper for the [vault](https://github.com/ryantaylor/vault
 
 ## Installation
 
-First, make sure you have a relatively recent version of the Rust toolchain installed (minimum supported Rust version for `vault` is 1.65.0). You can install Rust easily using [rustup](https://rustup.rs/).
+First, make sure you have a relatively recent version of the Rust toolchain installed (minimum supported Rust version for `vault` is 1.66.0). You can install Rust easily using [rustup](https://rustup.rs/).
 
 Then you can add to Gemfile:
 ```
