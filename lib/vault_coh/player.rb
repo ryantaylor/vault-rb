@@ -75,9 +75,7 @@ module VaultCoh
     # or use of battlegroups and their abilities. Sorted chronologically
     # from first to last.
     #
-    # @return [Array<Commands::SelectBattlegroupCommand |
-    #                Commands::SelectBattlegroupAbilityCommand |
-    #                Commands::UseBattlegroupAbilityCommand>]
+    # @return [Array<Command>]
     def battlegroup_commands; end
 
     # Returns a hash representation of the object.
