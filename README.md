@@ -1,12 +1,12 @@
 # Vault
 
-[![Gem Version](https://badge.fury.io/rb/vault_coh.svg)](https://badge.fury.io/rb/vault_coh) [![Documentation](https://img.shields.io/badge/View-Documentation-blue.svg)](https://rubydoc.info/github/ryantaylor/vault-rb/v5.0.0)
+[![Gem Version](https://badge.fury.io/rb/vault_coh.svg)](https://badge.fury.io/rb/vault_coh) [![Documentation](https://img.shields.io/badge/View-Documentation-blue.svg)](https://rubydoc.info/github/ryantaylor/vault-rb/v6.0.0)
 
 A native Ruby client wrapper for the [vault](https://github.com/ryantaylor/vault) Company of Heroes replay parser, integrated via a Rust native extension.
 
 ## Installation
 
-First, make sure you have a relatively recent version of the Rust toolchain installed (minimum supported Rust version for `vault` is 1.65.0). You can install Rust easily using [rustup](https://rustup.rs/).
+First, make sure you have a relatively recent version of the Rust toolchain installed (minimum supported Rust version for `vault` is 1.66.0). You can install Rust easily using [rustup](https://rustup.rs/).
 
 Then you can add to Gemfile:
 ```
@@ -24,7 +24,7 @@ bytes = File.read('/path/to/replay.rec').unpack('C*')
 replay = VaultCoh::Replay.from_bytes(bytes)
 puts replay.version
 ```
-All information available from parsing can be found in the [documentation](https://rubydoc.info/github/ryantaylor/vault-rb/v5.0.0).
+All information available from parsing can be found in the [documentation](https://rubydoc.info/github/ryantaylor/vault-rb/v6.0.0).
 
 ## Contributing
 

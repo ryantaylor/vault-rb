@@ -2,10 +2,6 @@ mod hash;
 
 use crate::hash::HashExt;
 use magnus::{class, define_module, exception, function, method, prelude::*, Error};
-use vault::commands::{
-    BuildGlobalUpgrade, BuildSquad, SelectBattlegroup, SelectBattlegroupAbility, Unknown,
-    UseBattlegroupAbility,
-};
 use vault::{Command, Map, Message, Player, Replay};
 
 #[magnus::init]
@@ -66,72 +62,6 @@ fn init() -> Result<(), Error> {
 
     let command = module.define_class("Command", class::object())?;
     command.define_method("to_h", method!(Command::to_h, 0))?;
-
-    let commands_module = module.define_module("Commands")?;
-
-    let build_global_upgrade_command =
-        commands_module.define_class("BuildGlobalUpgradeCommand", command)?;
-    build_global_upgrade_command
-        .define_method("value", method!(Command::extract_build_global_upgrade, 0))?;
-
-    let build_global_upgrade =
-        commands_module.define_class("BuildGlobalUpgrade", class::object())?;
-    build_global_upgrade.define_method("tick", method!(BuildGlobalUpgrade::tick, 0))?;
-    build_global_upgrade.define_method("pbgid", method!(BuildGlobalUpgrade::pbgid, 0))?;
-    build_global_upgrade.define_method("to_h", method!(BuildGlobalUpgrade::to_h, 0))?;
-
-    let build_squad_command = commands_module.define_class("BuildSquadCommand", command)?;
-    build_squad_command.define_method("value", method!(Command::extract_build_squad, 0))?;
-
-    let build_squad = commands_module.define_class("BuildSquad", class::object())?;
-    build_squad.define_method("tick", method!(BuildSquad::tick, 0))?;
-    build_squad.define_method("pbgid", method!(BuildSquad::pbgid, 0))?;
-    build_squad.define_method("to_h", method!(BuildSquad::to_h, 0))?;
-
-    let select_battlegroup_command =
-        commands_module.define_class("SelectBattlegroupCommand", command)?;
-    select_battlegroup_command
-        .define_method("value", method!(Command::extract_select_battlegroup, 0))?;
-
-    let select_battlegroup = commands_module.define_class("SelectBattlegroup", class::object())?;
-    select_battlegroup.define_method("tick", method!(SelectBattlegroup::tick, 0))?;
-    select_battlegroup.define_method("pbgid", method!(SelectBattlegroup::pbgid, 0))?;
-    select_battlegroup.define_method("to_h", method!(SelectBattlegroup::to_h, 0))?;
-
-    let select_battlegroup_ability_command =
-        commands_module.define_class("SelectBattlegroupAbilityCommand", command)?;
-    select_battlegroup_ability_command.define_method(
-        "value",
-        method!(Command::extract_select_battlegroup_ability, 0),
-    )?;
-
-    let select_battlegroup_ability =
-        commands_module.define_class("SelectBattlegroupAbility", class::object())?;
-    select_battlegroup_ability.define_method("tick", method!(SelectBattlegroupAbility::tick, 0))?;
-    select_battlegroup_ability
-        .define_method("pbgid", method!(SelectBattlegroupAbility::pbgid, 0))?;
-    select_battlegroup_ability.define_method("to_h", method!(SelectBattlegroupAbility::to_h, 0))?;
-
-    let use_battlegroup_ability_command =
-        commands_module.define_class("UseBattlegroupAbilityCommand", command)?;
-    use_battlegroup_ability_command.define_method(
-        "value",
-        method!(Command::extract_use_battlegroup_ability, 0),
-    )?;
-
-    let use_battlegroup_ability =
-        commands_module.define_class("UseBattlegroupAbility", class::object())?;
-    use_battlegroup_ability.define_method("tick", method!(UseBattlegroupAbility::tick, 0))?;
-    use_battlegroup_ability.define_method("pbgid", method!(UseBattlegroupAbility::pbgid, 0))?;
-    use_battlegroup_ability.define_method("to_h", method!(UseBattlegroupAbility::to_h, 0))?;
-
-    let unknown_command = commands_module.define_class("UnknownCommand", command)?;
-    unknown_command.define_method("value", method!(Command::extract_unknown, 0))?;
-
-    let unknown = commands_module.define_class("Unknown", class::object())?;
-    unknown.define_method("tick", method!(Unknown::tick, 0))?;
-    unknown.define_method("action_type", method!(Unknown::action_type, 0))?;
-    unknown.define_method("to_h", method!(Unknown::to_h, 0))?;
 
     Ok(())
 }
