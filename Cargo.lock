@@ -13,16 +13,16 @@ dependencies = [
 
 [[package]]
 name = "bindgen"
-version = "0.66.1"
+version = "0.69.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f2b84e06fc203107bfbad243f4aba2af864eb7db3b1cf46ea0a023b0b433d2a7"
+checksum = "a00dc851838a2120612785d195287475a3ac45514741da670b735818822129a0"
 dependencies = [
  "bitflags",
  "cexpr",
  "clang-sys",
+ "itertools",
  "lazy_static",
  "lazycell",
- "peeking_take_while",
  "proc-macro2",
  "quote",
  "regex",
@@ -76,10 +76,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "either"
+version = "1.13.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "60b1af1c220855b6ceac025d3f6ecdd2b7c4894bfe9cd9bda4fbb4bc7c0d4cf0"
+
+[[package]]
 name = "glob"
 version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d2fabcfbdc87f4758337ca535fb41a6d701b65693ce38287d856d1674551ec9b"
+
+[[package]]
+name = "itertools"
+version = "0.12.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ba291022dbbd398a455acf126c1e341954079855bc60dfdda641363bd6922569"
+dependencies = [
+ "either",
+]
 
 [[package]]
 name = "lazy_static"
@@ -111,9 +126,9 @@ dependencies = [
 
 [[package]]
 name = "magnus"
-version = "0.6.2"
+version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4778544796676e8428e9c622460ebf284bea52d8b10db3aeb449d8b5e61b3a13"
+checksum = "3d87ae53030f3a22e83879e666cb94e58a7bdf31706878a0ba48752994146dab"
 dependencies = [
  "magnus-macros",
  "rb-sys",
@@ -187,12 +202,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "peeking_take_while"
-version = "0.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "19b17cddbe7ec3f8bc800887bab5e717348c95ea2ca0b1bf0837fb964dc67099"
-
-[[package]]
 name = "proc-macro2"
 version = "1.0.69"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -212,18 +221,18 @@ dependencies = [
 
 [[package]]
 name = "rb-sys"
-version = "0.9.81"
+version = "0.9.101"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a57240b308b155b09dce81e32829966a99f52d1088b45957e4283e526c5317a1"
+checksum = "1ba2704ccfa7875c91792c57a9aa7c3caac524d3036c122e36eeddad6f6e7c6f"
 dependencies = [
  "rb-sys-build",
 ]
 
 [[package]]
 name = "rb-sys-build"
-version = "0.9.81"
+version = "0.9.101"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f24ce877a4c5d07f06f6aa6fec3ac95e4b357b9f73b0f5445d8cbb7266d410e8"
+checksum = "c73585ec80c217b7a81257ca9bb89b191b5e452ec4b9106dc4c2e4e96a822242"
 dependencies = [
  "bindgen",
  "lazy_static",
@@ -303,13 +312,10 @@ dependencies = [
 
 [[package]]
 name = "serde_magnus"
-version = "0.8.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4a9a56602c902d792aac8f369117c4490616b6772aaa85fad88cc8cc35edd192"
+version = "0.8.1"
+source = "git+https://github.com/ryantaylor/serde-magnus.git?branch=update-magnus#cb4ee4e76ec08f21a58651d70c28aab265870599"
 dependencies = [
  "magnus",
- "rb-sys",
- "rb-sys-build",
  "serde",
  "tap",
 ]
@@ -371,9 +377,9 @@ dependencies = [
 
 [[package]]
 name = "vault"
-version = "9.0.0"
+version = "10.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "771f7db565a750b784bea91fc8cf5190fca40a1f77c791e05d5a5e4168bfff59"
+checksum = "1fb1df47725f2569f794e8998c080cc4cbb803059050dbe464c25c815e704eb1"
 dependencies = [
  "byteorder",
  "magnus",
