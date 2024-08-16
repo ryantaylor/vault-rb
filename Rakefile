@@ -11,6 +11,7 @@ RuboCop::RakeTask.new
 
 require 'rake/extensiontask'
 
+desc 'build gem'
 task build: :compile
 
 Rake::ExtensionTask.new('vault_coh') do |ext|

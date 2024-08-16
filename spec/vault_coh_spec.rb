@@ -2,6 +2,6 @@
 
 RSpec.describe VaultCoh do
   it 'has a version number' do
-    expect(VaultCoh::VERSION).not_to be nil
+    expect(VaultCoh::VERSION).not_to be_nil
   end
 end
