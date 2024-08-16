@@ -78,7 +78,7 @@ impl HashExt for Command {
                     Symbol::new("action_type"),
                     RString::new("PCMD_PlaceAndConstructEntities"),
                 )
-                    .unwrap();
+                .unwrap();
                 hash.as_value()
             }
             Command::SelectBattlegroup(data) => {
