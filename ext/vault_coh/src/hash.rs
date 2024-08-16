@@ -70,6 +70,17 @@ impl HashExt for Command {
                 .unwrap();
                 hash.as_value()
             }
+            Command::ConstructEntity(data) => {
+                let hash: RHash = serde_magnus::serialize(data).unwrap();
+                hash.aset(Symbol::new("type"), RString::new("ConstructEntity"))
+                    .unwrap();
+                hash.aset(
+                    Symbol::new("action_type"),
+                    RString::new("PCMD_PlaceAndConstructEntities"),
+                )
+                .unwrap();
+                hash.as_value()
+            }
             Command::SelectBattlegroup(data) => {
                 let hash: RHash = serde_magnus::serialize(data).unwrap();
                 hash.aset(Symbol::new("type"), RString::new("SelectBattlegroup"))

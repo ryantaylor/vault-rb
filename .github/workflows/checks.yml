@@ -16,7 +16,7 @@ jobs:
           - stable
           - 1.66.0
         ruby:
-          - '3.2'
+          - '3.3.4'
     steps:
       - uses: actions/checkout@v3
 
@@ -44,7 +44,7 @@ jobs:
     strategy:
       matrix:
         ruby:
-          - '3.2'
+          - '3.3.4'
     steps:
       - uses: actions/checkout@v3
 
