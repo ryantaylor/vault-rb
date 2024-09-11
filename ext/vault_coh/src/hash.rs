@@ -32,6 +32,14 @@ impl HashExt for Message {
 impl HashExt for Command {
     fn to_h(&self) -> Value {
         match self {
+            Command::AITakeover(data) => {
+                let hash: RHash = serde_magnus::serialize(data).unwrap();
+                hash.aset(Symbol::new("type"), RString::new("AITakeover"))
+                    .unwrap();
+                hash.aset(Symbol::new("action_type"), RString::new("PCMD_AIPlayer"))
+                    .unwrap();
+                hash.as_value()
+            }
             Command::BuildGlobalUpgrade(data) => {
                 let hash: RHash = serde_magnus::serialize(data).unwrap();
                 hash.aset(Symbol::new("type"), RString::new("BuildGlobalUpgrade"))
