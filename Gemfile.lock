@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    vault_coh (6.2.4)
+    vault_coh (6.2.5)
 
 GEM
   remote: https://rubygems.org/
@@ -69,4 +69,4 @@ DEPENDENCIES
   vault_coh!
 
 BUNDLED WITH
-   2.5.17
+   2.5.20
