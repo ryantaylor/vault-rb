@@ -70,7 +70,7 @@ DEPENDENCIES
   rake-compiler
   rb_sys
   rspec (~> 3.13)
-  rubocop (~> 1.71)
+  rubocop (~> 1.72)
   rubocop-rake
   rubocop-rspec
   vault_coh!
