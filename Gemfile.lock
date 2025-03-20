@@ -12,7 +12,7 @@ GEM
     language_server-protocol (3.17.0.4)
     lint_roller (1.1.0)
     parallel (1.26.3)
-    parser (3.3.7.1)
+    parser (3.3.7.2)
       ast (~> 2.4.1)
       racc
     racc (1.8.1)
@@ -37,7 +37,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-support (3.13.2)
-    rubocop (1.73.2)
+    rubocop (1.74.0)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -71,7 +71,7 @@ DEPENDENCIES
   rake-compiler
   rb_sys
   rspec (~> 3.13)
-  rubocop (~> 1.73)
+  rubocop (~> 1.74)
   rubocop-rake
   rubocop-rspec
   vault_coh!
