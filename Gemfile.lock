@@ -24,7 +24,7 @@ GEM
     rake-compiler-dock (1.9.1)
     rb_sys (0.9.117)
       rake-compiler-dock (= 1.9.1)
-    regexp_parser (2.11.0)
+    regexp_parser (2.11.1)
     rspec (3.13.1)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
