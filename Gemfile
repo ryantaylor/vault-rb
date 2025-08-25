@@ -12,6 +12,6 @@ gem 'rb_sys'
 
 gem 'rspec', '~> 3.13'
 
-gem 'rubocop', '~> 1.79'
+gem 'rubocop', '~> 1.80'
 gem 'rubocop-rake'
 gem 'rubocop-rspec'
