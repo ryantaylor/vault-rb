@@ -10,6 +10,6 @@ publish = false
 crate-type = ["cdylib"]
 
 [dependencies]
-magnus = { version = "0.7" }
+magnus = { version = "0.8" }
 serde_magnus = { git = "https://github.com/ryantaylor/serde-magnus.git", branch = "update-magnus" }
 vault = { version = "10", features = ["magnus", "serde"] }
