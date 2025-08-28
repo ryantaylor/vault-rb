@@ -14,7 +14,7 @@ jobs:
       matrix:
         rust:
           - stable
-          - 1.66.0
+          - 1.78.0
         ruby:
           - '3.4.5'
     steps:
@@ -61,7 +61,7 @@ jobs:
       matrix:
         rust:
           - stable
-          - 1.66.0
+          - 1.78.0
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -79,7 +79,7 @@ jobs:
       matrix:
         rust:
           - stable
-          - 1.66.0
+          - 1.78.0
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -100,7 +100,7 @@ jobs:
       matrix:
         rust:
           - stable
-          - 1.66.0
+          - 1.78.0
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -121,7 +121,7 @@ jobs:
       matrix:
         rust:
           - stable
-          - 1.66.0
+          - 1.78.0
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
