@@ -1,14 +1,14 @@
 mod hash;
 
 use crate::hash::HashExt;
-use magnus::{class, define_module, exception, function, method, prelude::*, Error};
+use magnus::{function, method, prelude::*, Error, Ruby};
 use vault::{Command, Map, Message, Player, Replay};
 
 #[magnus::init]
-fn init() -> Result<(), Error> {
-    let module = define_module("VaultCoh")?;
+fn init(ruby: &Ruby) -> Result<(), Error> {
+    let module = ruby.define_module("VaultCoh")?;
 
-    let replay = module.define_class("Replay", class::object())?;
+    let replay = module.define_class("Replay", ruby.class_object())?;
     replay.define_singleton_method("from_bytes", function!(from_bytes, 1))?;
     replay.define_method("version", method!(Replay::version, 0))?;
     replay.define_method("timestamp", method!(Replay::timestamp, 0))?;
@@ -29,7 +29,7 @@ fn init() -> Result<(), Error> {
     replay.define_method("length", method!(Replay::length, 0))?;
     replay.define_method("to_h", method!(Replay::to_h, 0))?;
 
-    let map = module.define_class("Map", class::object())?;
+    let map = module.define_class("Map", ruby.class_object())?;
     map.define_method("filename", method!(Map::filename, 0))?;
     map.define_method("localized_name_id", method!(Map::localized_name_id, 0))?;
     map.define_method(
@@ -38,7 +38,7 @@ fn init() -> Result<(), Error> {
     )?;
     map.define_method("to_h", method!(Map::to_h, 0))?;
 
-    let player = module.define_class("Player", class::object())?;
+    let player = module.define_class("Player", ruby.class_object())?;
     player.define_method("name", method!(Player::name, 0))?;
     player.define_method("human?", method!(Player::human, 0))?;
     player.define_method("faction", method!(faction_string, 0))?;
@@ -55,20 +55,20 @@ fn init() -> Result<(), Error> {
     )?;
     player.define_method("to_h", method!(Player::to_h, 0))?;
 
-    let message = module.define_class("Message", class::object())?;
+    let message = module.define_class("Message", ruby.class_object())?;
     message.define_method("tick", method!(Message::tick, 0))?;
     message.define_method("message", method!(Message::message, 0))?;
     message.define_method("to_h", method!(Message::to_h, 0))?;
 
-    let command = module.define_class("Command", class::object())?;
+    let command = module.define_class("Command", ruby.class_object())?;
     command.define_method("to_h", method!(Command::to_h, 0))?;
 
     Ok(())
 }
 
-fn from_bytes(input: Vec<u8>) -> Result<Replay, Error> {
+fn from_bytes(ruby: &Ruby, input: Vec<u8>) -> Result<Replay, Error> {
     Replay::from_bytes(&input)
-        .map_err(|err| Error::new(exception::runtime_error(), err.to_string()))
+        .map_err(|err| Error::new(ruby.exception_runtime_error(), err.to_string()))
 }
 
 fn mod_uuid_string(rb_self: &Replay) -> String {
