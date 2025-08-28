@@ -52,8 +52,11 @@ impl HashExt for Command {
                 let hash: RHash = serde_magnus::serialize(&data).unwrap();
                 hash.aset(ruby.to_symbol("type"), ruby.str_new("BuildSquad"))
                     .unwrap();
-                hash.aset(ruby.to_symbol("action_type"), ruby.str_new("CMD_BuildSquad"))
-                    .unwrap();
+                hash.aset(
+                    ruby.to_symbol("action_type"),
+                    ruby.str_new("CMD_BuildSquad"),
+                )
+                .unwrap();
                 hash.as_value()
             }
             Command::CancelConstruction(data) => {
@@ -130,8 +133,11 @@ impl HashExt for Command {
             }
             Command::UseBattlegroupAbility(data) => {
                 let hash: RHash = serde_magnus::serialize(&data).unwrap();
-                hash.aset(ruby.to_symbol("type"), ruby.str_new("UseBattlegroupAbility"))
-                    .unwrap();
+                hash.aset(
+                    ruby.to_symbol("type"),
+                    ruby.str_new("UseBattlegroupAbility"),
+                )
+                .unwrap();
                 hash.aset(ruby.to_symbol("action_type"), ruby.str_new("PCMD_Ability"))
                     .unwrap();
                 hash.as_value()
