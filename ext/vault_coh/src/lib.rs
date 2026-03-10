@@ -44,6 +44,8 @@ fn init(ruby: &Ruby) -> Result<(), Error> {
     player.define_method("faction", method!(faction_string, 0))?;
     player.define_method("team", method!(team_value, 0))?;
     player.define_method("battlegroup", method!(Player::battlegroup, 0))?;
+    player.define_method("battlegroup_selected_at", method!(Player::battlegroup_selected_at, 0))?;
+    player.define_method("ai_takeover_at", method!(Player::ai_takeover_at, 0))?;
     player.define_method("steam_id", method!(Player::steam_id, 0))?;
     player.define_method("profile_id", method!(Player::profile_id, 0))?;
     player.define_method("messages", method!(Player::messages, 0))?;

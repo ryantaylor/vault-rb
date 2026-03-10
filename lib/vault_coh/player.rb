@@ -36,6 +36,18 @@ module VaultCoh
     # @return [Integer|NilClass]
     def battlegroup; end
 
+    # The tick at which the player selected their battlegroup, or +nil+
+    # if no battlegroup was selected.
+    #
+    # @return [Integer|NilClass]
+    def battlegroup_selected_at; end
+
+    # The tick at which the player dropped from the game and AI took over
+    # their army, or +nil+ if the player never dropped from the game.
+    #
+    # @return [Integer|NilClass]
+    def ai_takeover_at; end
+
     # The Steam ID of the player, or +nil+ if the player is AI. This ID
     # can be used to uniquely identify a player between replays, and
     # connect them to their Steam profile.

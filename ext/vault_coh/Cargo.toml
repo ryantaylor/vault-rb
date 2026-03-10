@@ -12,4 +12,4 @@ crate-type = ["cdylib"]
 [dependencies]
 magnus = { version = "0.8" }
 serde_magnus = { git = "https://github.com/ryantaylor/serde-magnus.git", branch = "magnus-8" }
-vault = { version = "10", features = ["magnus", "serde"] }
+vault = { version = "11", features = ["magnus", "serde"] }
